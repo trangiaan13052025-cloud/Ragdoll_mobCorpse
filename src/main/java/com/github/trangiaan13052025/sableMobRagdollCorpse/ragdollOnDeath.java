@@ -33,6 +33,9 @@ public class ragdollOnDeath {
             }
 
             float damage = event.getOriginalDamage();
+            if (damage > 9999999999) {
+                return;
+            }
             if (damage < mob.getHealth()) {
                 return;
             }
