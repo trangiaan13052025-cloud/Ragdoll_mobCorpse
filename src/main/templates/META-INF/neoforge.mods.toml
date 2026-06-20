@@ -46,7 +46,7 @@ displayName="Sable ragdoll additions" #mandatory
 
 # The description text for the mod (multi line!) (#mandatory)
 description='''
-Example mod description.
+yea you see those cows just drop physically for some reason
 '''
 
 # The [[mixins]] block allows you to declare your mob_ragdoll_corpse.mixins.json config to FML so that it gets loaded.
@@ -61,7 +61,7 @@ Example mod description.
 # The coremods config file path is not configurable and is always loaded from META-INF/coremods.json
 
 # A dependency - use the . to indicate dependency for a specific modid. Dependencies are optional.
-[[dependencies.sr_additions]] #optional
+[[dependencies.mob_ragdoll_corpse]] #optional
     # the modid of the dependency
     modId="neoforge" #mandatory
     # The type of the dependency. Can be one of "required", "optional", "incompatible" or "discouraged" (case insensitive).
@@ -80,12 +80,26 @@ Example mod description.
     side="BOTH"
 
 # Here's another dependency
-[[dependencies.sr_additions]]
+[[dependencies.mob_ragdoll_corpse]]
     modId="minecraft"
     type="required"
     # This version range declares a minimum of the current minecraft version up to but not including the next major version
     versionRange="[1.21.1]"
     ordering="NONE"
+    side="BOTH"
+
+[[dependencies.mob_ragdoll_corpse]]
+    modId="sable"
+    type="required"
+    versionRange="[2.0.3,)"
+    ordering="AFTER"
+    side="BOTH"
+
+[[dependencies.mob_ragdoll_corpse]]
+    modId="sable-ragdolls"
+    type="required"
+    versionRange="[0.7.0,)"
+    ordering="AFTER"
     side="BOTH"
 
 # Features are specific properties of the game environment, that you may want to declare you require. This example declares
