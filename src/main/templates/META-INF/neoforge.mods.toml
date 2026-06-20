@@ -96,7 +96,7 @@ yea you see those cows just drop physically for some reason
     side="BOTH"
 
 [[dependencies.mob_ragdoll_corpse]]
-    modId="sable-player-ragdoll"
+    modId="sable-ragdolls"
     type="required"
     versionRange="[0.7.0,)"
     ordering="AFTER"
