@@ -1,19 +1,20 @@
 package com.github.trangiaan13052025.sableMobRagdollCorpse;
 
+import dev.leo.sableplayerragdoll.RagdollCollisionRules;
 import dev.leo.sableplayerragdoll.api.RagdollAPI;
+import dev.leo.sableplayerragdoll.mob.MobRagdollAssembly;
 import dev.leo.sableplayerragdoll.mob.api.MobRagdollLaunchOptions;
+import dev.leo.sableplayerragdoll.mob.network.MobRagdollDespawnPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
-import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 
 @EventBusSubscriber(modid = "mob_ragdoll_corpse")
@@ -64,7 +65,7 @@ public class ragdollOnDeath {
                         mob,
                         delta,
                         delta_angular,
-                        MobRagdollLaunchOptions.builder().durationTicks(999999999).build()
+                        MobRagdollLaunchOptions.builder().durationTicks(Integer.MAX_VALUE).build()
                 );
             } catch (Exception e) {
                 return;
@@ -92,8 +93,8 @@ public class ragdollOnDeath {
 
                 // 5 Minutes = 5 * 60 seconds * 20 ticks per second = 6,000 ticks
                 if (currentTicks <= 0) {
-                    mob.setHealth(0);
-                    mob.deathTime = 20;
+                    mob.kill();
+                    mob.deathTime = 18;
                 } else {
                     // Increment the counter by 1 every game tick and save it back onto the mob
                     mob.setData(EntityAttachments.corpsetimer, currentTicks - 1);
@@ -104,7 +105,7 @@ public class ragdollOnDeath {
                                 mob,
                                 new Vec3(0, 0, 0),
                                 new Vec3(0, 0, 0),
-                                MobRagdollLaunchOptions.builder().durationTicks(999999999).build()
+                                MobRagdollLaunchOptions.builder().durationTicks(Integer.MAX_VALUE).build()
                         );
                     }
                 }
@@ -113,22 +114,12 @@ public class ragdollOnDeath {
     }
 
     @SubscribeEvent
-    public static void onMobLoad(EntityJoinLevelEvent event) {
+    public static void onEntityJoinLevel(EntityJoinLevelEvent event) {
         Entity entity = event.getEntity();
         if (entity.level().isClientSide()) {
             return;
         }
         if (entity instanceof Mob mob) {
-            if (!mob.hasData(EntityAttachments.is_ragdoll_corpse)) {
-                return;
-            }
-
-            if (RagdollAPI.isMobRagdolled(mob)) {
-                return;
-            }
-
-            mob.setHealth(0);
-            mob.deathTime = 20;
         }
     }
 
