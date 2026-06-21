@@ -144,7 +144,7 @@ dependencies {
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
     implementation "maven.modrinth:sable:2.0.3+mc1.21.1"
-    implementation "maven.modrinth:sable-ragdolls:0.7.0"
+    implementation "maven.modrinth:sable-ragdolls:0.7.2"
     implementation "maven.modrinth:ragdoll-reactions:0.7.0"
 }
 

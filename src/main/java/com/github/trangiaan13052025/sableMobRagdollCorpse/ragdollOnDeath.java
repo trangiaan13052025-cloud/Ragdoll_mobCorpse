@@ -1,10 +1,7 @@
 package com.github.trangiaan13052025.sableMobRagdollCorpse;
 
-import dev.leo.sableplayerragdoll.RagdollCollisionRules;
 import dev.leo.sableplayerragdoll.api.RagdollAPI;
-import dev.leo.sableplayerragdoll.mob.MobRagdollAssembly;
 import dev.leo.sableplayerragdoll.mob.api.MobRagdollLaunchOptions;
-import dev.leo.sableplayerragdoll.mob.network.MobRagdollDespawnPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
