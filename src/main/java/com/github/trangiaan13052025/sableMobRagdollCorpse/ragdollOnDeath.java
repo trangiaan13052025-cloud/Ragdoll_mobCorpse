@@ -98,16 +98,6 @@ public class ragdollOnDeath {
                 } else {
                     // Increment the counter by 1 every game tick and save it back onto the mob
                     mob.setData(EntityAttachments.corpsetimer, currentTicks - 1);
-                    ServerLevel level = (ServerLevel) mob.level();
-                    if (!RagdollAPI.isMobRagdolled(mob)) {
-                        RagdollAPI.launchMob(
-                                level,
-                                mob,
-                                new Vec3(0, 0, 0),
-                                new Vec3(0, 0, 0),
-                                MobRagdollLaunchOptions.builder().durationTicks(Integer.MAX_VALUE).build()
-                        );
-                    }
                 }
             }
         }
@@ -120,6 +110,16 @@ public class ragdollOnDeath {
             return;
         }
         if (entity instanceof Mob mob) {
+            ServerLevel level = (ServerLevel) mob.level();
+            if (!RagdollAPI.isMobRagdolled(mob)) {
+                RagdollAPI.launchMob(
+                        level,
+                        mob,
+                        new Vec3(0, 0, 0),
+                        new Vec3(0, 0, 0),
+                        MobRagdollLaunchOptions.builder().durationTicks(Integer.MAX_VALUE).build()
+                );
+            }
         }
     }
 
