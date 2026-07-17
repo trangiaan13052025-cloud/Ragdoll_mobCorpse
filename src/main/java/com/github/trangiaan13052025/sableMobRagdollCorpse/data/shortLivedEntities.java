@@ -16,7 +16,6 @@ public class shortLivedEntities {
         ResourceLocation entityId = BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType());
         String entityIdString = entityId.toString();
 
-        // Check A: Check against your hidden, hardcoded embedded blacklist first
         if (shortLivedEntities.contains(entityIdString)) {
             return true;
         }

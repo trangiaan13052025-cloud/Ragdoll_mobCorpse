@@ -1,6 +1,7 @@
 package com.github.trangiaan13052025.sableMobRagdollCorpse;
 
 import com.github.trangiaan13052025.sableMobRagdollCorpse.configs.serverConfig;
+import com.github.trangiaan13052025.sableMobRagdollCorpse.data.ignoredDamageTypes;
 import com.github.trangiaan13052025.sableMobRagdollCorpse.data.ignoredEntities;
 import com.github.trangiaan13052025.sableMobRagdollCorpse.data.shortLivedEntities;
 import com.github.trangiaan13052025.sableMobRagdollCorpse.utils.mobUtils;
@@ -30,6 +31,7 @@ import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
+//look up to heaven my guy. Don't look to hell down there
 
 @Mod("mob_ragdoll_corpse")
 @EventBusSubscriber(modid = "mob_ragdoll_corpse")
@@ -51,10 +53,7 @@ public class ragdollOnDeath {
         if (entity.level().isClientSide()) { return; }
 
         if (entity instanceof Mob mob) {
-
-            if (mob.getData(EntityAttachments.is_ragdoll_corpse)) {
-                return;
-            }
+            DamageSource source = event.getSource();
 
             if (ignoredEntities.shouldIgnoreEntity(entity)) {
                 return;
@@ -65,11 +64,17 @@ public class ragdollOnDeath {
                 return;
             }
 
+            if (mob.getData(EntityAttachments.is_ragdoll_corpse)) {
+                return;
+            }
+
+            if (ignoredDamageTypes.shouldIgnore(source)) {
+                return;
+            }
+
             int deathTimeOverride = -1;
             Vec3 hitPos = new Vec3(0, 0, 0);
             Vec3 hitForce = new Vec3(0, 0, 0);
-
-            DamageSource source = event.getSource();
             // Checky check stuff to avoid too many corpses
 
             Vec3 CoM = mob.getPosition(0.5F).add(0, mob.getBbHeight() / 2.0f, 0);
@@ -124,7 +129,7 @@ public class ragdollOnDeath {
                 }
                 corpseHealth = 2.0f;
 
-                boolean isPersistentRagdoll = mobUtils.isTamed(mob);
+                boolean isPersistentRagdoll = mobUtils.isTamed(mob); // now look at your dead dog
 
                 mob.setHealth(corpseHealth);
                 mob.deathTime = 0;
@@ -137,15 +142,6 @@ public class ragdollOnDeath {
                 mob.setPersistenceRequired();
                 ServerLevel level = (ServerLevel) mob.level();
                 Vec3 curDelta = mob.getDeltaMovement();
-//                float baseForce = damage*10;
-//                Vec3 delta = new Vec3(curDelta.x * baseForce, curDelta.y * baseForce + (baseForce/100), curDelta.z * baseForce);
-//                double spinFactor = baseForce;
-//
-//                double spinX = (Math.random() - 0.5) * spinFactor;
-//                double spinY = (Math.random() - 0.5) * spinFactor;
-//                double spinZ = (Math.random() - 0.5) * spinFactor;
-//                Vec3 delta_angular = new Vec3(spinX, spinY, spinZ);
-                Double hitPower = hitForce.length();
                 Vec3 delta = curDelta.add(hitPos.multiply(hitForce.x, hitForce.y, hitForce.z));
 
                 float BbWidth = mob.getBbWidth();
