@@ -12,7 +12,7 @@ loaderVersion="${loader_version_range}" #mandatory
 
 # The license for you mod. This is mandatory metadata and allows for easier comprehension of your redistributive properties.
 # Review your options at https://choosealicense.com/. All rights reserved is the default copyright stance, and is thus the default here.
-license="All rights reserved"
+license="MIT"
 
 # A URL to refer people to when problems occur with this mod
 #issueTrackerURL="https://change.me.to.your.issue.tracker.example.invalid/" #optional
@@ -24,10 +24,10 @@ license="All rights reserved"
 modId="mob_ragdoll_corpse" #mandatory
 
 # The version number of the mod
-version="1.0.1" #mandatory
+version="1.1.0" #mandatory
 
 # A display name for the mod
-displayName="Sable ragdoll additions" #mandatory
+displayName="Sable mob ragdoll corpses" #mandatory
 
 # A URL to query for updates for this mod. See the JSON update specification https://docs.neoforged.net/docs/misc/updatechecker/
 #updateJSONURL="https://change.me.example.invalid/updates.json" #optional
@@ -61,7 +61,7 @@ yea you see those cows just drop physically for some reason
 # The coremods config file path is not configurable and is always loaded from META-INF/coremods.json
 
 # A dependency - use the . to indicate dependency for a specific modid. Dependencies are optional.
-[[dependencies.${mod_id}]] #optional
+[[dependencies.mob_ragdoll_corpse]] #optional
     # the modid of the dependency
     modId="neoforge" #mandatory
     # The type of the dependency. Can be one of "required", "optional", "incompatible" or "discouraged" (case insensitive).
@@ -80,7 +80,7 @@ yea you see those cows just drop physically for some reason
     side="BOTH"
 
 # Here's another dependency
-[[dependencies.${mod_id}]]
+[[dependencies.mob_ragdoll_corpse]]
     modId="minecraft"
     type="required"
     # This version range declares a minimum of the current minecraft version up to but not including the next major version
@@ -88,17 +88,17 @@ yea you see those cows just drop physically for some reason
     ordering="NONE"
     side="BOTH"
 
-[[dependencies.${mod_id}]]
+[[dependencies.mob_ragdoll_corpse]]
     modId="sable"
     type="required"
     versionRange="[2.0.3,)"
     ordering="AFTER"
     side="BOTH"
 
-[[dependencies.${mod_id}]]
+[[dependencies.mob_ragdoll_corpse]]
     modId="sable_player_ragdoll"
     type="required"
-    versionRange="[0.7.0,)"
+    versionRange="[0.7.5,)"
     ordering="AFTER"
     side="BOTH"
 
