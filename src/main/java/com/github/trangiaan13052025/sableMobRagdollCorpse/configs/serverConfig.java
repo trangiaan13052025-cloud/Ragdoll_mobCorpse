@@ -20,11 +20,8 @@ public class serverConfig {
         IGNORED_ENTITY_IDS = BUILDER
                 .comment("A list of mob ids to ignore from creating corpse in case it is causing a bug")
                 .translation("config.sablemobragdollcorpse.ignored_entity_ids")
-                .defineListAllowEmpty(
-                        "ignoredEntityIds",
-                        List.of(
-
-                        ),
+                .defineListAllowEmpty("ignoredEntityIds",
+                        List.of("minecraft:"),
                         obj -> {
                             if (!(obj instanceof String stringId)) return false;
                             return ResourceLocation.tryParse(stringId) != null;

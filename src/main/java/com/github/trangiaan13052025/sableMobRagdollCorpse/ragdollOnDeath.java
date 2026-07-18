@@ -1,5 +1,6 @@
 package com.github.trangiaan13052025.sableMobRagdollCorpse;
 
+import com.github.trangiaan13052025.sableMobRagdollCorpse.client.configGuiBuilder;
 import com.github.trangiaan13052025.sableMobRagdollCorpse.configs.serverConfig;
 import com.github.trangiaan13052025.sableMobRagdollCorpse.data.ignoredDamageTypes;
 import com.github.trangiaan13052025.sableMobRagdollCorpse.data.ignoredEntities;
@@ -27,9 +28,12 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.loading.FMLLoader;
+import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
+
+import java.util.function.Supplier;
 
 //look up to heaven my guy. Don't look to hell down there
 
@@ -44,9 +48,15 @@ public class ragdollOnDeath {
         container.registerConfig(ModConfig.Type.SERVER, serverConfig.SPEC);
 
         if (FMLLoader.getDist().isClient()) {
-            // Check if Cloth Config is installed before trying to load the screen class
+            // 100% Safe native check: Verify if Cloth Config is installed
             if (FMLLoader.getLoadingModList().getModFileById("cloth_config") != null) {
-                com.github.trangiaan13052025.sableMobRagdollCorpse.client.ClothScreenHelper.register(container);
+
+                // This lazy supplier prevents JVM class-loading unless the button is clicked!
+                container.registerExtensionPoint(IConfigScreenFactory.class, (Supplier<IConfigScreenFactory>) () ->
+                        (containerInstance, parentScreen) ->
+                                configGuiBuilder.createScreen(parentScreen)
+                );
+
             }
         }
     }
@@ -184,7 +194,7 @@ public class ragdollOnDeath {
     public static void onMobTick(EntityTickEvent.Pre event) {
         Entity entity = event.getEntity();
 
-        if (entity == null || entity.level().isClientSide()) {
+        if (entity.level().isClientSide()) {
             return;
         }
 

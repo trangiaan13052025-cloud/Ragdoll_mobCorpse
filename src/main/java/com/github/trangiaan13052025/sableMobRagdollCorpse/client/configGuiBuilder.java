@@ -15,7 +15,7 @@ public class configGuiBuilder {
     public static Screen createScreen(Screen parentScreen) {
         ConfigBuilder builder = ConfigBuilder.create()
                 .setParentScreen(parentScreen)
-                .setTitle(Component.literal("Sable Mob Ragdoll Corpse Config"));
+                .setTitle(Component.literal("Sable Mob ragdoll Corpse Config"));
 
         ConfigEntryBuilder entryBuilder = builder.entryBuilder();
 
@@ -25,7 +25,7 @@ public class configGuiBuilder {
                         Component.literal("Ignored Entity IDs"),
                         new ArrayList<>(serverConfig.IGNORED_ENTITY_IDS.get()) // Create mutable copy????
                 )
-                .setDefaultValue(List.of("minecraft:"))
+                .setDefaultValue(List.of())
                 .setTooltip(Component.literal("A list of mob ids to ignore from creating corpse in case it is causing a bug"))
 
                 .setSaveConsumer(updatedList -> {

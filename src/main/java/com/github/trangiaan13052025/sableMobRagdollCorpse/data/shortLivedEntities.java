@@ -16,9 +16,6 @@ public class shortLivedEntities {
         ResourceLocation entityId = BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType());
         String entityIdString = entityId.toString();
 
-        if (shortLivedEntities.contains(entityIdString)) {
-            return true;
-        }
-        return false;
+        return shortLivedEntities.contains(entityIdString);
     }
 }
