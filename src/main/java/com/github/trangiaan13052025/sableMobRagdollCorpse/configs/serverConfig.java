@@ -12,10 +12,14 @@ public class serverConfig {
     public static final ModConfigSpec.ConfigValue<List<? extends String>> IGNORED_ENTITY_IDS;
 
     static {
-        BUILDER.push("Ignored entities");
+        BUILDER
+                .comment("Server config")
+                .translation("config.sablemobragdollcorpse.category.server_config")
+                .push("ServerConfig");
 
         IGNORED_ENTITY_IDS = BUILDER
-                .comment("List of Entity ids to ignore from creating corpse and instead drop items immediately.")
+                .comment("A list of mob ids to ignore from creating corpse in case it is causing a bug")
+                .translation("config.sablemobragdollcorpse.ignored_entity_ids")
                 .defineListAllowEmpty(
                         "ignoredEntityIds",
                         List.of(

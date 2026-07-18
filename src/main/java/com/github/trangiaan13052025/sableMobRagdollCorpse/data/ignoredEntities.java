@@ -34,7 +34,7 @@ public class ignoredEntities {
             return true;
         }
 
-        List<? extends String> customList = serverConfig.IGNORED_ENTITY_IDS.get();
-        return customList.contains(entityIdString);
+        List<? extends String> configList = serverConfig.IGNORED_ENTITY_IDS.get();
+        return configList.contains(entityIdString);
     }
 }

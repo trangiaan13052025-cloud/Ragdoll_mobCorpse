@@ -7,7 +7,7 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
 
-public class EntityAttachments {
+public class entityAttachments {
     public static final DeferredRegister<AttachmentType<?>> ATTACHMENT_TYPES =
             DeferredRegister.create(NeoForgeRegistries.Keys.ATTACHMENT_TYPES, "mob_ragdoll_corpse");
 
@@ -32,7 +32,7 @@ public class EntityAttachments {
                             .build()
             );
 
-    public EntityAttachments(IEventBus modEventBus) {
+    public entityAttachments(IEventBus modEventBus) {
         ATTACHMENT_TYPES.register(modEventBus);
     }
 }

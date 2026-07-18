@@ -26,11 +26,11 @@ import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
-import net.neoforged.neoforge.client.gui.ConfigurationScreen;
-import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
+import net.neoforged.fml.loading.FMLLoader;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
+
 //look up to heaven my guy. Don't look to hell down there
 
 @Mod("mob_ragdoll_corpse")
@@ -40,9 +40,15 @@ public class ragdollOnDeath {
     static int lifeTime = (5 * 60) * 20;
 
     public ragdollOnDeath(IEventBus modEventBus, ModContainer container) {
-        EntityAttachments.ATTACHMENT_TYPES.register(modEventBus);
-        container.registerConfig(ModConfig.Type.COMMON, serverConfig.SPEC);
-        container.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new);
+        entityAttachments.ATTACHMENT_TYPES.register(modEventBus);
+        container.registerConfig(ModConfig.Type.SERVER, serverConfig.SPEC);
+
+        if (FMLLoader.getDist().isClient()) {
+            // Check if Cloth Config is installed before trying to load the screen class
+            if (FMLLoader.getLoadingModList().getModFileById("cloth_config") != null) {
+                com.github.trangiaan13052025.sableMobRagdollCorpse.client.ClothScreenHelper.register(container);
+            }
+        }
     }
 
     //bublububulublulbu:3
@@ -64,7 +70,7 @@ public class ragdollOnDeath {
                 return;
             }
 
-            if (mob.getData(EntityAttachments.is_ragdoll_corpse)) {
+            if (mob.getData(entityAttachments.is_ragdoll_corpse)) {
                 return;
             }
 
@@ -133,10 +139,10 @@ public class ragdollOnDeath {
 
                 mob.setHealth(corpseHealth);
                 mob.deathTime = 0;
-                mob.setData(EntityAttachments.is_ragdoll_corpse, true);
+                mob.setData(entityAttachments.is_ragdoll_corpse, true);
                 int corpseTimer = (deathTimeOverride > 0) ? deathTimeOverride : lifeTime;
-                mob.setData(EntityAttachments.corpsetimer, shortLived ? (corpseTimer / 2) : corpseTimer);
-                mob.setData(EntityAttachments.persistent_ragdoll, isPersistentRagdoll);
+                mob.setData(entityAttachments.corpsetimer, shortLived ? (corpseTimer / 2) : corpseTimer);
+                mob.setData(entityAttachments.persistent_ragdoll, isPersistentRagdoll);
                 mob.setNoAi(true);
                 mob.setSilent(true);
                 mob.setPersistenceRequired();
@@ -148,6 +154,7 @@ public class ragdollOnDeath {
                 float BbHeight = mob.getBbHeight();
                 float mass = BbWidth * BbWidth * BbHeight * 0.1F;
 
+                //i. am spin- AGGGGGGGGHHHHHHHHHHHHHHHHHH (dips in lava)
                 double torqueX = (hitPos.y * hitForce.z) - (hitPos.z * hitForce.y);
                 double torqueY = (hitPos.z * hitForce.x) - (hitPos.x * hitForce.z);
                 double torqueZ = (hitPos.x * hitForce.y) - (hitPos.y * hitForce.x);
@@ -188,14 +195,14 @@ public class ragdollOnDeath {
                 }
             }
 
-            if (!mob.hasData(EntityAttachments.is_ragdoll_corpse) || !mob.hasData(EntityAttachments.corpsetimer)) {
+            if (!mob.hasData(entityAttachments.is_ragdoll_corpse) || !mob.hasData(entityAttachments.corpsetimer)) {
                 return;
             }
             // Check if this specific entity is currently an active corpse
-            if (mob.getData(EntityAttachments.is_ragdoll_corpse)) {
+            if (mob.getData(entityAttachments.is_ragdoll_corpse)) {
 
                 // Get the current tick count saved on this bullshit
-                int currentTicks = mob.getData(EntityAttachments.corpsetimer);
+                int currentTicks = mob.getData(entityAttachments.corpsetimer);
 
                 // 5 Minutes = 5 * 60 seconds * 20 ticks per second = 6,000 ticks
                 if (currentTicks <= 0) {
@@ -205,8 +212,8 @@ public class ragdollOnDeath {
                     }
                 } else {
                     // crank ye counter by 1/tick and save it
-                    if (!mob.getData(EntityAttachments.persistent_ragdoll)) {
-                        mob.setData(EntityAttachments.corpsetimer, currentTicks - 1);
+                    if (!mob.getData(entityAttachments.persistent_ragdoll)) {
+                        mob.setData(entityAttachments.corpsetimer, currentTicks - 1);
                     }
                 }
             }
@@ -221,7 +228,7 @@ public class ragdollOnDeath {
         }
         if (entity instanceof Mob mob) {
             ServerLevel level = (ServerLevel) mob.level();
-            if (mob.getData(EntityAttachments.is_ragdoll_corpse)) {
+            if (mob.getData(entityAttachments.is_ragdoll_corpse)) {
                 if (!RagdollAPI.isMobRagdolled(mob)) {
                     RagdollAPI.launchMob(
                             level,
