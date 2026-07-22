@@ -1,5 +1,6 @@
 package com.github.trangiaan13052025.sableMobRagdollCorpse.client;
 
+import com.github.trangiaan13052025.sableMobRagdollCorpse.configs.clientConfig;
 import com.github.trangiaan13052025.sableMobRagdollCorpse.configs.serverConfig;
 import me.shedaniel.clothconfig2.api.ConfigBuilder;
 import me.shedaniel.clothconfig2.api.ConfigCategory;
@@ -19,7 +20,7 @@ public class configGuiBuilder {
 
         ConfigEntryBuilder entryBuilder = builder.entryBuilder();
 
-        ConfigCategory server_category = builder.getOrCreateCategory(Component.literal("Server Settings"));
+        ConfigCategory server_category = builder.getOrCreateCategory(Component.literal("Server settings"));
 
         server_category.addEntry(entryBuilder.startStrList(
                         Component.literal("Ignored Entity IDs"),
@@ -34,6 +35,22 @@ public class configGuiBuilder {
 
                 })
                 .build());
+
+        ConfigCategory client_category = builder.getOrCreateCategory(Component.literal("Client settings"));
+
+        client_category.addEntry(entryBuilder.startBooleanToggle(
+                                Component.literal("Enable blood"),
+                                clientConfig.BLOOD_EFFECTS.get()
+                        )
+                        .setDefaultValue(false)
+                        .setTooltip(Component.literal("Enable.. blood?? please don't"))
+                        .setSaveConsumer(newValue -> {
+                            clientConfig.BLOOD_EFFECTS.set(newValue);
+                            clientConfig.SPEC.save();
+                        })
+                        .build()
+        );
+
 
         return builder.build();
     }

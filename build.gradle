@@ -61,6 +61,7 @@ neoForge {
 
             // Comma-separated list of namespaces to load gametests from. Empty = all namespaces.
             systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+            gameDirectory = file("C:/Users/Admin/Desktop/_minecraft-workspace")
         }
 
         server {
@@ -147,6 +148,7 @@ dependencies {
     implementation "maven.modrinth:sable-ragdolls:0.7.5"
     implementation "maven.modrinth:ragdoll-reactions:0.7.0"
     compileOnly("maven.modrinth:9s6osm5g:izKINKFg")
+    compileOnly("maven.modrinth:OypNE65K:SISBXRRW") //tacz
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.

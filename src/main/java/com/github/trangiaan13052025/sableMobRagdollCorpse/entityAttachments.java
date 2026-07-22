@@ -1,7 +1,10 @@
 package com.github.trangiaan13052025.sableMobRagdollCorpse;
 
 import com.mojang.serialization.Codec;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.attachment.AttachmentSyncHandler;
 import net.neoforged.neoforge.attachment.AttachmentType;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -29,6 +32,14 @@ public class entityAttachments {
             ATTACHMENT_TYPES.register("persistent_ragdoll", () ->
                     AttachmentType.builder(() -> false)
                             .serialize(Codec.BOOL)
+                            .build()
+            );
+
+    public static final DeferredHolder<AttachmentType<?>, AttachmentType<Boolean>> bleeding_corpse =
+            ATTACHMENT_TYPES.register("bleeding_corpse", () ->
+                    AttachmentType.builder(() -> false)
+                            .serialize(Codec.BOOL)
+                            .sync(ByteBufCodecs.BOOL)
                             .build()
             );
 
